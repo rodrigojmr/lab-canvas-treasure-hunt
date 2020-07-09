@@ -27,9 +27,10 @@ function drawGrid() {
 
 // Iteration 2
 class Character {
-  constructor(col, row) {
+  constructor(col, row, direction) {
     this.col = col;
     this.row = row;
+    this.direction = direction;
   }
   moveUp() {
     this.col--;
@@ -77,11 +78,12 @@ class Treasure {
   }
 }
 
+const treasure = new Treasure();
+treasure.setRandomPosition();
+
 function drawTreasure() {
   const treasureImg = new Image();
   treasureImg.src = './images/treasure.png';
-  const treasure = new Treasure();
-  treasure.setRandomPosition();
   treasureImg.addEventListener('load', () => {
     context.drawImage(
       treasureImg,
@@ -93,7 +95,33 @@ function drawTreasure() {
   });
 }
 
+window.addEventListener('keydown', event => {
+  event.key;
+  console.log('event.key: ', event.key);
+  switch (event.key) {
+    case 'ArrowUp':
+      player.moveUp();
+      drawEverything();
+      break;
+    case 'ArrowDown':
+      player.moveDown();
+      drawEverything();
+      break;
+    case 'ArrowLeft':
+      player.moveLeft();
+      drawEverything();
+      break;
+    case 'ArrowRight':
+      player.moveRight();
+      drawEverything();
+      break;
+    default:
+      break;
+  }
+});
+
 function drawEverything() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
   drawGrid();
   drawPlayer();
   drawTreasure();
