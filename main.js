@@ -33,20 +33,30 @@ class Character {
     this.direction = direction;
   }
   moveUp() {
+    if (this.col === 0) return false;
+    this.direction = 'up';
     this.col--;
   }
   moveRight() {
+    if (this.row === 9) return false;
+    this.direction = 'right';
     this.row++;
   }
   moveDown() {
+    if (this.col === 9) return false;
+
+    this.direction = 'down';
     this.col++;
   }
   moveLeft() {
+    if (this.row === 0) return false;
+
+    this.direction = 'left';
     this.row--;
   }
 }
 
-const player = new Character(0, 0); // (0,0) = Initial position
+const player = new Character(0, 0, 'down'); // (0,0) = Initial position
 player.moveDown(); // Increase by 1 the value of player.row
 player.moveDown(); // Increase by 1 the value of player.row
 player.moveRight(); // Increase by 1 the value of player.col
@@ -54,7 +64,15 @@ player.moveRight(); // Increase by 1 the value of player.col
 // Iteration 3
 function drawPlayer() {
   const playerImg = new Image();
-  playerImg.src = './images/character-down.png';
+  if (player.direction === 'up') {
+    playerImg.src = './images/character-up.png';
+  } else if (player.direction === 'down') {
+    playerImg.src = './images/character-down.png';
+  } else if (player.direction === 'left') {
+    playerImg.src = './images/character-left.png';
+  } else if (player.direction === 'right') {
+    playerImg.src = './images/character-right.png';
+  }
   playerImg.addEventListener('load', () => {
     context.drawImage(
       playerImg,
@@ -97,7 +115,6 @@ function drawTreasure() {
 
 window.addEventListener('keydown', event => {
   event.key;
-  console.log('event.key: ', event.key);
   switch (event.key) {
     case 'ArrowUp':
       player.moveUp();
