@@ -25,6 +25,7 @@ function drawGrid() {
   }
 }
 
+// Iteration 2
 class Character {
   constructor(col, row) {
     this.col = col;
@@ -49,11 +50,29 @@ console.log('player: ', player);
 player.moveDown(); // Increase by 1 the value of player.row
 player.moveDown(); // Increase by 1 the value of player.row
 player.moveRight(); // Increase by 1 the value of player.col
-console.log(player.col, player.row);
+
+// Iteration 3
+function drawPlayer() {
+  const player = new Image();
+
+  player.src = './images/character-down.png';
+  console.log('player: ', player);
+  player.addEventListener('load', () => {
+    context.drawImage(
+      player,
+      player.x * SQUARE_WIDTH,
+      player.y * SQUARE_HEIGHT,
+      SQUARE_WIDTH,
+      SQUARE_HEIGHT
+    );
+  });
+}
+
+// Iteration 4
 
 function drawEverything() {
   drawGrid();
-  // drawPlayer()
+  drawPlayer();
   // drawTreasure()
 }
 
