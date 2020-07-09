@@ -148,6 +148,124 @@ function treasureCheck(player) {
   }
 }
 
+function playerTurnChange(player) {
+  windows.removeEventListener('keydown');
+  if (player === player1) {
+    window.addEventListener('keydown', event => {
+      switch (event.key) {
+        case 'ArrowUp':
+          player1.moveUp();
+          treasureCheck(player1);
+          drawEverything();
+          break;
+        case 'ArrowDown':
+          player1.moveDown();
+          treasureCheck(player1);
+          drawEverything();
+          break;
+        case 'ArrowLeft':
+          player1.moveLeft();
+          treasureCheck(player1);
+          drawEverything();
+          break;
+        case 'ArrowRight':
+          player1.moveRight();
+          treasureCheck(player1);
+          drawEverything();
+          break;
+        default:
+          break;
+      }
+    });
+  }
+  if (player === player2) {
+    window.addEventListener('keydown', event => {
+      switch (event.key) {
+        case 'w':
+          player2.moveUp();
+          treasureCheck(player2);
+          drawEverything();
+          break;
+        case 's':
+          player2.moveDown();
+          treasureCheck(player2);
+          drawEverything();
+          break;
+        case 'a':
+          player2.moveLeft();
+          treasureCheck(player2);
+          drawEverything();
+          break;
+        case 'd':
+          player2.moveRight();
+          treasureCheck(player2);
+          drawEverything();
+          break;
+        default:
+          break;
+      }
+    });
+  }
+}
+
+function player1Turn() {
+  window.addEventListener('keydown', event => {
+    switch (event.key) {
+      case 'ArrowUp':
+        player1.moveUp();
+        treasureCheck(player1);
+        drawEverything();
+        break;
+      case 'ArrowDown':
+        player1.moveDown();
+        treasureCheck(player1);
+        drawEverything();
+        break;
+      case 'ArrowLeft':
+        player1.moveLeft();
+        treasureCheck(player1);
+        drawEverything();
+        break;
+      case 'ArrowRight':
+        player1.moveRight();
+        treasureCheck(player1);
+        drawEverything();
+        break;
+      default:
+        break;
+    }
+  });
+}
+
+function player2Turn() {
+  window.addEventListener('keydown', event => {
+    switch (event.key) {
+      case 'w':
+        player2.moveUp();
+        treasureCheck(player2);
+        drawEverything();
+        break;
+      case 's':
+        player2.moveDown();
+        treasureCheck(player2);
+        drawEverything();
+        break;
+      case 'a':
+        player2.moveLeft();
+        treasureCheck(player2);
+        drawEverything();
+        break;
+      case 'd':
+        player2.moveRight();
+        treasureCheck(player2);
+        drawEverything();
+        break;
+      default:
+        break;
+    }
+  });
+}
+
 window.addEventListener('keydown', event => {
   switch (event.key) {
     case 'ArrowUp':
