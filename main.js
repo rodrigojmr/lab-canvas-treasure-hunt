@@ -27,61 +27,62 @@ function drawGrid() {
 
 // Iteration 2
 class Character {
-  constructor(col, row, direction) {
+  constructor(name, col, row, direction) {
+    this.name = name;
     this.col = col;
     this.row = row;
     this.direction = direction;
+    this.score = 0;
   }
   moveUp() {
-    if (this.col === 0) return false;
+    if (this.row === 0) return false;
     this.direction = 'up';
-    this.col--;
+    this.row--;
   }
   moveRight() {
-    if (this.row === 9) return false;
-    this.direction = 'right';
-    this.row++;
-  }
-  moveDown() {
     if (this.col === 9) return false;
-
-    this.direction = 'down';
+    this.direction = 'right';
     this.col++;
   }
+  moveDown() {
+    if (this.row === 9) return false;
+    this.direction = 'down';
+    this.row++;
+  }
   moveLeft() {
-    if (this.row === 0) return false;
-
+    if (this.col === 0) return false;
     this.direction = 'left';
-    this.row--;
+    this.col--;
   }
 }
 
-const player = new Character(0, 0, 'down'); // (0,0) = Initial position
-player.moveDown(); // Increase by 1 the value of player.row
-player.moveDown(); // Increase by 1 the value of player.row
-player.moveRight(); // Increase by 1 the value of player.col
+const player1 = new Character('Player 1', 2, 5, 'down'); // (0,0) = Initial position
+const player2 = new Character('Player 2', 7, 4, 'left');
+const players = [player1, player2];
 
 // Iteration 3
 function drawPlayer() {
-  const playerImg = new Image();
-  if (player.direction === 'up') {
-    playerImg.src = './images/character-up.png';
-  } else if (player.direction === 'down') {
-    playerImg.src = './images/character-down.png';
-  } else if (player.direction === 'left') {
-    playerImg.src = './images/character-left.png';
-  } else if (player.direction === 'right') {
-    playerImg.src = './images/character-right.png';
+  for (const player of players) {
+    const playerImg = new Image();
+    if (player.direction === 'up') {
+      playerImg.src = './images/character-up.png';
+    } else if (player.direction === 'down') {
+      playerImg.src = './images/character-down.png';
+    } else if (player.direction === 'left') {
+      playerImg.src = './images/character-left.png';
+    } else if (player.direction === 'right') {
+      playerImg.src = './images/character-right.png';
+    }
+    playerImg.addEventListener('load', () => {
+      context.drawImage(
+        playerImg,
+        player.col * SQUARE_WIDTH,
+        player.row * SQUARE_HEIGHT,
+        SQUARE_WIDTH,
+        SQUARE_HEIGHT
+      );
+    });
   }
-  playerImg.addEventListener('load', () => {
-    context.drawImage(
-      playerImg,
-      player.row * SQUARE_WIDTH,
-      player.col * SQUARE_HEIGHT,
-      SQUARE_WIDTH,
-      SQUARE_HEIGHT
-    );
-  });
 }
 
 // Iteration 4
@@ -93,6 +94,12 @@ class Treasure {
   setRandomPosition() {
     this.col = Math.floor(Math.random() * (10 - 0));
     this.row = Math.floor(Math.random() * (10 - 0));
+    if (
+      (player1.col === treasure.col && player1.row === treasure.row) ||
+      (player2.col === treasure.col && player2.row === treasure.row)
+    ) {
+      this.setRandomPosition();
+    }
   }
 }
 
@@ -113,23 +120,74 @@ function drawTreasure() {
   });
 }
 
+function drawScores() {
+  setTimeout(() => {
+    context.font = '20px Arial';
+    context.fillStyle = 'blue';
+    context.fillText(
+      player1.score,
+      player1.col * SQUARE_WIDTH + SQUARE_WIDTH / 2 - 5,
+      player1.row * SQUARE_HEIGHT - 10,
+      50
+    );
+    context.fillStyle = 'red';
+    context.fillText(
+      player2.score,
+      player2.col * SQUARE_WIDTH + SQUARE_WIDTH / 2 - 5,
+      player2.row * SQUARE_HEIGHT - 10,
+      50
+    );
+  }, 50);
+}
+
+function treasureCheck(player) {
+  if (player.col === treasure.col && player.row === treasure.row) {
+    player.score++;
+    drawScores();
+    treasure.setRandomPosition();
+  }
+}
+
 window.addEventListener('keydown', event => {
-  event.key;
   switch (event.key) {
     case 'ArrowUp':
-      player.moveUp();
+      player1.moveUp();
+      treasureCheck(player1);
       drawEverything();
       break;
     case 'ArrowDown':
-      player.moveDown();
+      player1.moveDown();
+      treasureCheck(player1);
       drawEverything();
       break;
     case 'ArrowLeft':
-      player.moveLeft();
+      player1.moveLeft();
+      treasureCheck(player1);
       drawEverything();
       break;
     case 'ArrowRight':
-      player.moveRight();
+      player1.moveRight();
+      treasureCheck(player1);
+      drawEverything();
+      break;
+    case 'w':
+      player2.moveUp();
+      treasureCheck(player2);
+      drawEverything();
+      break;
+    case 's':
+      player2.moveDown();
+      treasureCheck(player2);
+      drawEverything();
+      break;
+    case 'a':
+      player2.moveLeft();
+      treasureCheck(player2);
+      drawEverything();
+      break;
+    case 'd':
+      player2.moveRight();
+      treasureCheck(player2);
       drawEverything();
       break;
     default:
