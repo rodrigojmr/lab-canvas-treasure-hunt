@@ -35,23 +35,23 @@ class Character {
     this.score = 0;
   }
   moveUp() {
-    if (this.row === 0) return false;
     this.direction = 'up';
+    if (this.row === 0) return false;
     this.row--;
   }
   moveRight() {
-    if (this.col === 9) return false;
     this.direction = 'right';
+    if (this.col === 9) return false;
     this.col++;
   }
   moveDown() {
-    if (this.row === 9) return false;
     this.direction = 'down';
+    if (this.row === 9) return false;
     this.row++;
   }
   moveLeft() {
-    if (this.col === 0) return false;
     this.direction = 'left';
+    if (this.col === 0) return false;
     this.col--;
   }
 }
